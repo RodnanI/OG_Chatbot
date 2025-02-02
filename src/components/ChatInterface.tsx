@@ -9,6 +9,7 @@ interface Message {
         name: string;
         type: string;
         size: number;
+        text?: string;
     };
 }
 
@@ -28,6 +29,7 @@ export default function ChatInterface() {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
+    // Load conversations from localStorage on initial render
     useEffect(() => {
         const savedConversations = localStorage.getItem('conversations');
         if (savedConversations) {
@@ -41,12 +43,14 @@ export default function ChatInterface() {
         }
     }, []);
 
+    // Save conversations to localStorage whenever they change
     useEffect(() => {
         if (conversations.length > 0) {
             localStorage.setItem('conversations', JSON.stringify(conversations));
         }
     }, [conversations]);
 
+    // Auto-scroll to bottom when new messages arrive
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
@@ -89,76 +93,75 @@ export default function ChatInterface() {
         setIsLoading(true);
 
         try {
-            // Add immediate feedback message
-            setMessages(prev => [...prev, {
-                role: 'user',
-                content: `Uploading file: ${file.name}...`
-            }]);
-
             const formData = new FormData();
             formData.append('file', file);
 
-            const uploadResponse = await fetch('/api/upload', {
-                method: 'POST',
-                body: formData,
-            });
+            if (file.type === 'application/pdf') {
+                const response = await fetch('/api/process-pdf', {
+                    method: 'POST',
+                    body: formData,
+                });
 
-            const fileData = await uploadResponse.json();
-
-            if (!uploadResponse.ok) {
-                throw new Error(fileData.error || 'Upload failed');
-            }
-
-            // Update the upload status message with file content
-            const fileMessage = {
-                role: 'user' as const,
-                content: `I've uploaded a file named "${file.name}". Here's its content:\n\n${fileData.content}`,
-                fileInfo: {
-                    name: file.name,
-                    type: file.type,
-                    size: file.size,
-                    content: fileData.content
+                if (!response.ok) {
+                    throw new Error('Failed to process PDF');
                 }
-            };
 
-            const newMessages = [...messages.slice(0, -1), fileMessage]; // Replace the upload status message
-            setMessages(newMessages);
+                const data = await response.json();
 
-            // Automatically ask Claude to analyze the file
-            const response = await fetch('/api/chat', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    message: `This is the content of the file "${file.name}". Please analyze it and let me know what you think:\n\n${fileData.content}`,
-                    messageHistory: newMessages
-                }),
-            });
+                // Add file upload message to chat
+                const fileMessage = {
+                    role: 'user' as const,
+                    content: `Uploaded PDF: ${file.name}\nNumber of pages: ${data.pages}`,
+                    fileInfo: {
+                        name: file.name,
+                        type: file.type,
+                        size: file.size,
+                        text: data.text
+                    }
+                };
 
-            if (!response.ok) {
-                throw new Error('Failed to get response from Claude');
-            }
+                const updatedMessages = [...messages, fileMessage];
+                setMessages(updatedMessages);
 
-            const data = await response.json();
-            const updatedMessages = [...newMessages, {
-                role: 'assistant',
-                content: data.message
-            }];
+                // Send the PDF content to Claude
+                const claudeResponse = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: "I've uploaded a PDF document. Please analyze its content: \n\n" + data.text,
+                        messageHistory: updatedMessages
+                    }),
+                });
 
-            setMessages(updatedMessages);
+                if (!claudeResponse.ok) {
+                    throw new Error('Failed to get Claude response');
+                }
 
-            if (currentConversationId) {
-                updateConversation(updatedMessages);
+                const claudeData = await claudeResponse.json();
+                const finalMessages = [...updatedMessages, { role: 'assistant', content: claudeData.message }];
+                setMessages(finalMessages);
+                updateConversation(finalMessages);
+
+            } else {
+                // Handle other file types or show error
+                const errorMessages = [...messages, {
+                    role: 'assistant',
+                    content: 'Sorry, currently only PDF files are supported for processing.'
+                }];
+                setMessages(errorMessages);
+                updateConversation(errorMessages);
             }
 
         } catch (error) {
             console.error('Error handling file:', error);
-            // Remove the upload status message and add error message
-            setMessages(prev => [...prev.slice(0, -1), {
+            const errorMessages = [...messages, {
                 role: 'assistant',
-                content: `Error processing file: ${error.message}`
-            }]);
+                content: 'Sorry, there was an error processing your file.'
+            }];
+            setMessages(errorMessages);
+            updateConversation(errorMessages);
         } finally {
             setIsLoading(false);
         }
@@ -168,6 +171,7 @@ export default function ChatInterface() {
         e.preventDefault();
         if (!input.trim() || isLoading) return;
 
+        // Create new conversation if none exists
         if (!currentConversationId) {
             createNewConversation();
         }
@@ -186,7 +190,12 @@ export default function ChatInterface() {
                 },
                 body: JSON.stringify({
                     message: userInput,
-                    messageHistory: newMessages
+                    messageHistory: newMessages,
+                    fileInfo: selectedFile ? {
+                        name: selectedFile.name,
+                        type: selectedFile.type,
+                        size: selectedFile.size,
+                    } : null
                 }),
             });
 
