@@ -1,18 +1,22 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
+// src/app/layout.tsx
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import { AuthProvider } from '@/context/AuthContext';
+import { ThemeProvider } from '@/context/ThemeContext';
+import 'github-markdown-css';
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
     title: 'Chatbot Interface',
     description: 'A sophisticated chatbot interface with file upload and markdown support',
-}
+};
 
 export default function RootLayout({
                                        children,
                                    }: {
-    children: React.ReactNode
+    children: React.ReactNode;
 }) {
     return (
         <html lang="en">
@@ -38,10 +42,14 @@ export default function RootLayout({
             />
         </head>
         <body className={inter.className}>
-        <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800">
-            {children}
-        </div>
+        <AuthProvider>
+            <ThemeProvider>
+                <div className="min-h-screen bg-theme-gradient">
+                    {children}
+                </div>
+            </ThemeProvider>
+        </AuthProvider>
         </body>
         </html>
-    )
+    );
 }

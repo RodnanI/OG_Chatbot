@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { extractRawText } from 'docx-preview';
+import { Readable } from 'stream';
 
 export async function POST(request: Request) {
     try {
@@ -15,11 +16,15 @@ export async function POST(request: Request) {
 
         let fileContent = '';
 
+        // Create a readable stream from the file
+        const buffer = await file.arrayBuffer();
+        const stream = new Readable();
+        stream.push(Buffer.from(buffer));
+        stream.push(null);
+
         if (file.name.endsWith('.docx')) {
-            // Convert file to ArrayBuffer
-            const arrayBuffer = await file.arrayBuffer();
             // Extract text from docx
-            fileContent = await extractRawText({ buffer: arrayBuffer });
+            fileContent = await extractRawText({ buffer });
         } else {
             // For other file types, read as text
             fileContent = await file.text();
@@ -45,5 +50,6 @@ export async function POST(request: Request) {
 export const config = {
     api: {
         bodyParser: false,
+        responseLimit: false,
     },
 };

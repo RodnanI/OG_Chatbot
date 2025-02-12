@@ -2,20 +2,91 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Base styles */
+/* Base themes */
 :root {
-  --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 0, 0, 0;
-  --background-end-rgb: 0, 0, 0;
+  /* Default theme variables (midnight theme) */
+  --background-start: #0f172a;
+  --background-end: #1e293b;
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --secondary: rgba(30, 41, 59, 0.7);
+  --secondary-hover: rgba(30, 41, 59, 0.9);
+  --text: #f8fafc;
+  --accent: #60a5fa;
+  --sidebar-gradient-1: #0f172a;
+  --sidebar-gradient-2: #1e293b;
+  --sidebar-gradient-3: #334155;
+  --card-background: rgba(30, 41, 59, 0.5);
+  --border-color: rgba(148, 163, 184, 0.1);
 }
 
+/* Base styles */
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-          to bottom,
-          rgb(var(--background-start-rgb)),
-          rgb(var(--background-end-rgb))
+  color: var(--text);
+  background: linear-gradient(135deg,
+  var(--background-start) 0%,
+  var(--background-end) 100%
   );
+}
+
+/* Theme-aware utility classes */
+.bg-theme-gradient {
+  background: linear-gradient(135deg,
+  var(--background-start) 0%,
+  var(--background-end) 100%
+  );
+}
+
+/* Sidebar gradient */
+.sidebar-gradient {
+  background: linear-gradient(160deg,
+  var(--sidebar-gradient-1) 0%,
+  var(--sidebar-gradient-2) 50%,
+  var(--sidebar-gradient-3) 100%
+  );
+  backdrop-filter: blur(10px);
+  border-right: 1px solid var(--border-color);
+}
+
+/* Card and container styles */
+.bg-card {
+  background: var(--card-background);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-color);
+}
+
+.bg-primary {
+  background-color: var(--primary);
+}
+
+.bg-primary-hover:hover {
+  background-color: var(--primary-hover);
+}
+
+.bg-secondary {
+  background-color: var(--secondary);
+  backdrop-filter: blur(4px);
+}
+
+.bg-secondary:hover {
+  background-color: var(--secondary-hover);
+}
+
+.text-theme {
+  color: var(--text);
+}
+
+.border-theme {
+  border-color: var(--border-color);
+}
+
+/* Glass effect for containers */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+  0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 /* Markdown styles */
@@ -24,6 +95,28 @@ body {
   color: inherit !important;
   font-size: 14px;
   line-height: 1.6;
+}
+
+.markdown-body ul {
+  list-style-type: disc;
+  padding-left: 2em;
+  margin: 1em 0;
+}
+
+.markdown-body ol {
+  list-style-type: decimal;
+  padding-left: 2em;
+  margin: 1em 0;
+}
+
+.markdown-body ul ul,
+.markdown-body ol ul {
+  list-style-type: circle;
+}
+
+.markdown-body ul ul ul,
+.markdown-body ol ul ul {
+  list-style-type: square;
 }
 
 .markdown-body pre {
@@ -48,6 +141,50 @@ body {
   padding: 0;
   border-radius: 0;
   font-size: 0.9em;
+}
+
+/* Table styles */
+.markdown-body table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.markdown-body table th {
+  font-weight: 600;
+  text-align: left;
+  background-color: var(--secondary);
+  color: var(--text);
+  padding: 12px 16px;
+  border: 1px solid var(--border-color);
+}
+
+.markdown-body table td {
+  padding: 12px 16px;
+  border: 1px solid var(--border-color);
+  color: var(--text);
+}
+
+.markdown-body table tr {
+  background-color: transparent;
+  transition: background-color 0.2s;
+}
+
+.markdown-body table tr:hover {
+  background-color: var(--secondary);
+}
+
+.markdown-body table thead tr {
+  background-color: var(--secondary);
+}
+
+/* Ensure tables are responsive */
+.markdown-body .table-container {
+  overflow-x: auto;
+  max-width: 100%;
+  margin: 16px 0;
 }
 
 /* LaTeX styles */
@@ -101,6 +238,39 @@ pre:hover button {
   opacity: 1;
   transform: translateY(0);
   transition: opacity 200ms ease-out, transform 200ms ease-out;
+}
+
+/* Smooth message entrance animation */
+@keyframes message-entrance {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.message-bubble {
+  animation: message-entrance 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+/* Better scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.15);
+  border-radius: 6px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.2);
 }
 
 /* Code syntax highlighting theme */
@@ -182,43 +352,6 @@ pre:hover button {
   outline: none;
 }
 
-/* Message bubble animations */
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.message-bubble {
-  animation: slideIn 0.3s ease-out;
-}
-
-/* Loading spinner animation */
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.loading-spinner {
-  animation: spin 1s linear infinite;
-}
-
-/* Code output modal styles */
-.code-output-modal {
-  backdrop-filter: blur(4px);
-}
-
-.code-output-content {
-  max-height: calc(100vh - 100px);
-  overflow-y: auto;
-}
-
 /* Add smooth transitions */
 .transition-all {
   transition-property: all;
@@ -233,4 +366,32 @@ pre:hover button {
 
 .markdown-body pre:hover {
   border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Current chat highlight */
+.current-chat {
+  position: relative;
+}
+
+.current-chat::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--primary);
+  border-radius: 0.75rem;
+  opacity: 0.5;
+  pointer-events: none;
+  animation: pulseBorder 2s infinite;
+}
+
+@keyframes pulseBorder {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0.5;
+  }
 }
