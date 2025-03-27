@@ -4,7 +4,6 @@
 
 /* Base themes */
 :root {
-  /* Default theme variables (midnight theme) */
   --background-start: #0f172a;
   --background-end: #1e293b;
   --primary: #3b82f6;
@@ -23,27 +22,17 @@
 /* Base styles */
 body {
   color: var(--text);
-  background: linear-gradient(135deg,
-  var(--background-start) 0%,
-  var(--background-end) 100%
-  );
+  background: linear-gradient(135deg, var(--background-start) 0%, var(--background-end) 100%);
 }
 
 /* Theme-aware utility classes */
 .bg-theme-gradient {
-  background: linear-gradient(135deg,
-  var(--background-start) 0%,
-  var(--background-end) 100%
-  );
+  background: linear-gradient(135deg, var(--background-start) 0%, var(--background-end) 100%);
 }
 
 /* Sidebar gradient */
 .sidebar-gradient {
-  background: linear-gradient(160deg,
-  var(--sidebar-gradient-1) 0%,
-  var(--sidebar-gradient-2) 50%,
-  var(--sidebar-gradient-3) 100%
-  );
+  background: linear-gradient(160deg, var(--sidebar-gradient-1) 0%, var(--sidebar-gradient-2) 50%, var(--sidebar-gradient-3) 100%);
   backdrop-filter: blur(10px);
   border-right: 1px solid var(--border-color);
 }
@@ -85,8 +74,7 @@ body {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(8px);
   border: 1px solid var(--border-color);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-  0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 /* Markdown styles */
@@ -180,52 +168,14 @@ body {
   background-color: var(--secondary);
 }
 
-/* Ensure tables are responsive */
-.markdown-body .table-container {
-  overflow-x: auto;
-  max-width: 100%;
-  margin: 16px 0;
+/* Smooth hover effects */
+.hover-effect {
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-/* LaTeX styles */
-.katex {
-  font-size: 1.1em !important;
-}
-
-.katex-display {
-  margin: 1rem 0 !important;
-  padding: 0.5rem 0;
-  overflow-x: auto;
-  overflow-y: hidden;
-}
-
-.katex-inline {
-  padding: 0 0.2em;
-}
-
-/* Run button styles */
-pre:hover button {
-  opacity: 1;
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
+.hover-effect:hover {
+  background-color: rgba(59, 130, 246, 0.2);
+  transform: translateX(5px);
 }
 
 /* Message transitions */
@@ -256,24 +206,27 @@ pre:hover button {
   animation: message-entrance 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }
 
-/* Better scrollbar styling */
+/* Scrollbar styling */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.15);
-  border-radius: 6px;
-  border: 2px solid transparent;
-  background-clip: content-box;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.3);
 }
 
-/* Code syntax highlighting theme */
+/* Code syntax highlighting */
 .token.comment,
 .token.prolog,
 .token.doctype,
@@ -329,36 +282,6 @@ pre:hover button {
   color: #ffa657;
 }
 
-/* File upload animation */
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5);
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
-  }
-}
-
-.file-upload-pulse {
-  animation: pulse 2s infinite;
-}
-
-/* Chat input focus styles */
-.chat-input:focus {
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
-  outline: none;
-}
-
-/* Add smooth transitions */
-.transition-all {
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
 /* Improved code block styling */
 .markdown-body pre {
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -367,7 +290,6 @@ pre:hover button {
 .markdown-body pre:hover {
   border-color: rgba(255, 255, 255, 0.2);
 }
-
 /* Current chat highlight */
 .current-chat {
   position: relative;
@@ -381,17 +303,6 @@ pre:hover button {
   border-radius: 0.75rem;
   opacity: 0.5;
   pointer-events: none;
-  animation: pulseBorder 2s infinite;
 }
 
-@keyframes pulseBorder {
-  0% {
-    opacity: 0.5;
-  }
-  50% {
-    opacity: 0.3;
-  }
-  100% {
-    opacity: 0.5;
-  }
-}
+

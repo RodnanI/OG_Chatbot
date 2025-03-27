@@ -1,0 +1,367 @@
+{
+  "daily": {
+    "tokens": 151,
+    "messages": 4,
+    "conversations": 0,
+    "avgResponseTime": 0,
+    "fileStats": {
+      "totalUploads": 0,
+      "totalSize": 0,
+      "averageSize": 0,
+      "largestFile": 0,
+      "uploadTimes": [],
+      "byType": {}
+    },
+    "performance": {
+      "averageLatency": 237.5,
+      "tokenProcessingRate": 0.2074235807860262,
+      "streamingSpeed": 95,
+      "errorRecoveryRate": 1,
+      "successfulRequests": 6,
+      "failedRequests": 0,
+      "timeoutRate": 0
+    },
+    "content": {
+      "averageWordCount": 7.666666666666667,
+      "sentimentScores": [],
+      "topicDistribution": {},
+      "questionFrequency": 3,
+      "codeBlockCount": 0,
+      "imageAnalysisCount": 0,
+      "mathExpressionCount": 0
+    },
+    "interactions": {
+      "averageResponseTime": 9770.2,
+      "messageEditCount": 0,
+      "deletedMessages": 0,
+      "reactionCounts": {},
+      "userCorrectionRate": 0,
+      "clarificationRequests": 0
+    },
+    "userBehavior": {
+      "sessionDuration": [
+        48851
+      ],
+      "averageSessionLength": 48851,
+      "sessionCount": 1,
+      "activeTimeOfDay": {
+        "0": 6
+      },
+      "activeDaysOfWeek": {
+        "Sat": 6
+      },
+      "returnRate": 0,
+      "timeZone": "Europe/Berlin"
+    },
+    "modelUsage": [
+      {
+        "modelId": "gemini-2.0-flash",
+        "name": "Gemini 2.0 Flash",
+        "provider": "google",
+        "usage": 1,
+        "totalTokens": 0,
+        "averageResponseTime": 0,
+        "errorRate": 0,
+        "averageMessageLength": 0,
+        "costEstimate": 0
+      }
+    ],
+    "activityHeatMap": {
+      "Sat-0": 10
+    }
+  },
+  "weekly": {
+    "tokens": 151,
+    "messages": 4,
+    "conversations": 0,
+    "avgResponseTime": 0,
+    "fileStats": {
+      "totalUploads": 0,
+      "totalSize": 0,
+      "averageSize": 0,
+      "largestFile": 0,
+      "uploadTimes": [],
+      "byType": {}
+    },
+    "performance": {
+      "averageLatency": 237.5,
+      "tokenProcessingRate": 0.2074235807860262,
+      "streamingSpeed": 95,
+      "errorRecoveryRate": 1,
+      "successfulRequests": 6,
+      "failedRequests": 0,
+      "timeoutRate": 0
+    },
+    "content": {
+      "averageWordCount": 7.666666666666667,
+      "sentimentScores": [],
+      "topicDistribution": {},
+      "questionFrequency": 3,
+      "codeBlockCount": 0,
+      "imageAnalysisCount": 0,
+      "mathExpressionCount": 0
+    },
+    "interactions": {
+      "averageResponseTime": 9770.2,
+      "messageEditCount": 0,
+      "deletedMessages": 0,
+      "reactionCounts": {},
+      "userCorrectionRate": 0,
+      "clarificationRequests": 0
+    },
+    "userBehavior": {
+      "sessionDuration": [
+        48851
+      ],
+      "averageSessionLength": 48851,
+      "sessionCount": 1,
+      "activeTimeOfDay": {
+        "0": 6
+      },
+      "activeDaysOfWeek": {
+        "Sat": 6
+      },
+      "returnRate": 0,
+      "timeZone": "Europe/Berlin"
+    },
+    "modelUsage": [
+      {
+        "modelId": "gemini-2.0-flash",
+        "name": "Gemini 2.0 Flash",
+        "provider": "google",
+        "usage": 1,
+        "totalTokens": 0,
+        "averageResponseTime": 0,
+        "errorRate": 0,
+        "averageMessageLength": 0,
+        "costEstimate": 0
+      }
+    ],
+    "activityHeatMap": {
+      "Sat-0": 10
+    }
+  },
+  "monthly": {
+    "tokens": 151,
+    "messages": 4,
+    "conversations": 0,
+    "avgResponseTime": 0,
+    "fileStats": {
+      "totalUploads": 0,
+      "totalSize": 0,
+      "averageSize": 0,
+      "largestFile": 0,
+      "uploadTimes": [],
+      "byType": {}
+    },
+    "performance": {
+      "averageLatency": 237.5,
+      "tokenProcessingRate": 0.2074235807860262,
+      "streamingSpeed": 95,
+      "errorRecoveryRate": 1,
+      "successfulRequests": 6,
+      "failedRequests": 0,
+      "timeoutRate": 0
+    },
+    "content": {
+      "averageWordCount": 7.666666666666667,
+      "sentimentScores": [],
+      "topicDistribution": {},
+      "questionFrequency": 3,
+      "codeBlockCount": 0,
+      "imageAnalysisCount": 0,
+      "mathExpressionCount": 0
+    },
+    "interactions": {
+      "averageResponseTime": 9770.2,
+      "messageEditCount": 0,
+      "deletedMessages": 0,
+      "reactionCounts": {},
+      "userCorrectionRate": 0,
+      "clarificationRequests": 0
+    },
+    "userBehavior": {
+      "sessionDuration": [
+        48851
+      ],
+      "averageSessionLength": 48851,
+      "sessionCount": 1,
+      "activeTimeOfDay": {
+        "0": 6
+      },
+      "activeDaysOfWeek": {
+        "Sat": 6
+      },
+      "returnRate": 0,
+      "timeZone": "Europe/Berlin"
+    },
+    "modelUsage": [
+      {
+        "modelId": "gemini-2.0-flash",
+        "name": "Gemini 2.0 Flash",
+        "provider": "google",
+        "usage": 1,
+        "totalTokens": 0,
+        "averageResponseTime": 0,
+        "errorRate": 0,
+        "averageMessageLength": 0,
+        "costEstimate": 0
+      }
+    ],
+    "activityHeatMap": {
+      "Sat-0": 10
+    }
+  },
+  "yearly": {
+    "tokens": 151,
+    "messages": 4,
+    "conversations": 0,
+    "avgResponseTime": 0,
+    "fileStats": {
+      "totalUploads": 0,
+      "totalSize": 0,
+      "averageSize": 0,
+      "largestFile": 0,
+      "uploadTimes": [],
+      "byType": {}
+    },
+    "performance": {
+      "averageLatency": 237.5,
+      "tokenProcessingRate": 0.2074235807860262,
+      "streamingSpeed": 95,
+      "errorRecoveryRate": 1,
+      "successfulRequests": 6,
+      "failedRequests": 0,
+      "timeoutRate": 0
+    },
+    "content": {
+      "averageWordCount": 7.666666666666667,
+      "sentimentScores": [],
+      "topicDistribution": {},
+      "questionFrequency": 3,
+      "codeBlockCount": 0,
+      "imageAnalysisCount": 0,
+      "mathExpressionCount": 0
+    },
+    "interactions": {
+      "averageResponseTime": 9770.2,
+      "messageEditCount": 0,
+      "deletedMessages": 0,
+      "reactionCounts": {},
+      "userCorrectionRate": 0,
+      "clarificationRequests": 0
+    },
+    "userBehavior": {
+      "sessionDuration": [
+        48851
+      ],
+      "averageSessionLength": 48851,
+      "sessionCount": 1,
+      "activeTimeOfDay": {
+        "0": 6
+      },
+      "activeDaysOfWeek": {
+        "Sat": 6
+      },
+      "returnRate": 0,
+      "timeZone": "Europe/Berlin"
+    },
+    "modelUsage": [
+      {
+        "modelId": "gemini-2.0-flash",
+        "name": "Gemini 2.0 Flash",
+        "provider": "google",
+        "usage": 1,
+        "totalTokens": 0,
+        "averageResponseTime": 0,
+        "errorRate": 0,
+        "averageMessageLength": 0,
+        "costEstimate": 0
+      }
+    ],
+    "activityHeatMap": {
+      "Sat-0": 10
+    }
+  },
+  "allTime": {
+    "tokens": 151,
+    "messages": 4,
+    "conversations": 0,
+    "avgResponseTime": 0,
+    "fileStats": {
+      "totalUploads": 0,
+      "totalSize": 0,
+      "averageSize": 0,
+      "largestFile": 0,
+      "uploadTimes": [],
+      "byType": {}
+    },
+    "performance": {
+      "averageLatency": 237.5,
+      "tokenProcessingRate": 0.2074235807860262,
+      "streamingSpeed": 95,
+      "errorRecoveryRate": 1,
+      "successfulRequests": 6,
+      "failedRequests": 0,
+      "timeoutRate": 0
+    },
+    "content": {
+      "averageWordCount": 7.666666666666667,
+      "sentimentScores": [],
+      "topicDistribution": {},
+      "questionFrequency": 3,
+      "codeBlockCount": 0,
+      "imageAnalysisCount": 0,
+      "mathExpressionCount": 0
+    },
+    "interactions": {
+      "averageResponseTime": 9770.2,
+      "messageEditCount": 0,
+      "deletedMessages": 0,
+      "reactionCounts": {},
+      "userCorrectionRate": 0,
+      "clarificationRequests": 0
+    },
+    "userBehavior": {
+      "sessionDuration": [
+        48851
+      ],
+      "averageSessionLength": 48851,
+      "sessionCount": 1,
+      "activeTimeOfDay": {
+        "0": 6
+      },
+      "activeDaysOfWeek": {
+        "Sat": 6
+      },
+      "returnRate": 0,
+      "timeZone": "Europe/Berlin"
+    },
+    "modelUsage": [
+      {
+        "modelId": "gemini-2.0-flash",
+        "name": "Gemini 2.0 Flash",
+        "provider": "google",
+        "usage": 1,
+        "totalTokens": 0,
+        "averageResponseTime": 0,
+        "errorRate": 0,
+        "averageMessageLength": 0,
+        "costEstimate": 0
+      }
+    ],
+    "activityHeatMap": {
+      "Sat-0": 10
+    }
+  },
+  "timeSeriesData": [
+    {
+      "date": "2025-02-15",
+      "tokens": 70,
+      "messages": 6,
+      "averageResponseTime": 0,
+      "averageMessageLength": 0,
+      "uniqueConversations": 0
+    }
+  ]
+}

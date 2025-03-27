@@ -1,7 +1,7 @@
-'use client';
 import { useDrag } from 'react-dnd';
 import { MessageCircle, Edit, Trash2 } from 'lucide-react';
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 
 interface DraggableChatProps {
     id: string;
@@ -20,7 +20,7 @@ export default function DraggableChat({
                                           isSelected,
                                           onClick,
                                           onDelete,
-                                          onRename
+                                          onRename,
                                       }: DraggableChatProps) {
     const [{ isDragging }, drag] = useDrag(() => ({
         type: 'chat',
@@ -41,13 +41,16 @@ export default function DraggableChat({
     };
 
     return (
-        <div
+        <motion.div
             ref={drag}
             onClick={onClick}
-            className={`group relative w-full p-3 text-left rounded-lg transition-all duration-200 cursor-move 
-                ${isSelected
-                ? 'bg-primary/20 text-theme current-chat'
-                : 'text-theme hover:bg-secondary/70'
+            initial={{ opacity: 1, x: 0 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -100, transition: { duration: 0.3 } }}
+            className={`group relative w-full p-3 text-left rounded-lg transition-all duration-200 cursor-move ${
+                isSelected
+                    ? 'bg-primary/20 text-theme current-chat'
+                    : 'text-theme hover:bg-secondary/70'
             } ${isDragging ? 'opacity-50' : 'opacity-100'}`}
         >
             <div className="flex items-center gap-3">
@@ -57,7 +60,7 @@ export default function DraggableChat({
                         type="text"
                         value={editedTitle}
                         onChange={(e) => setEditedTitle(e.target.value)}
-                        className="flex-1 bg-secondary/50 text-theme rounded px-2 py-1 text-sm border border-theme"
+                        className="flex-1 bg-transparent text-theme rounded px-2 py-1 text-sm border border-theme"
                         autoFocus
                         onKeyDown={(e) => {
                             if (e.key === 'Enter') handleRename();
@@ -79,7 +82,6 @@ export default function DraggableChat({
                 )}
             </div>
 
-            {/* Edit/Delete Buttons */}
             {!isEditing && (
                 <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
@@ -104,6 +106,6 @@ export default function DraggableChat({
                     </button>
                 </div>
             )}
-        </div>
+        </motion.div>
     );
 }

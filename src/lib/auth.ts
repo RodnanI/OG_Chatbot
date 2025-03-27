@@ -3,51 +3,56 @@ import { User } from '@/types/auth';
 
 const STORAGE_KEY = 'auth_state';
 
-// Define valid users
-const VALID_USERS: Record<string, User & { password: string }> = {
-    'rodnan': {
+export const VALID_USERS: Record<string, User & { password: string; isAdmin?: boolean }> = {
+    admin: {
+        id: '0',
+        username: 'admin',
+        name: 'Administrator',
+        password: 'admin2024',
+        isAdmin: true
+    },
+    rodnan: {
         id: '1',
         username: 'rodnan',
         name: 'Rodnan',
         password: 'rod2024'
     },
-    'dodo': {
+    dodo: {
         id: '2',
         username: 'dodo',
         name: 'Dodo',
         password: 'dodo2024'
     },
-    'dindi': {
+    dindi: {
         id: '3',
         username: 'dindi',
         name: 'Dindi',
         password: 'dindi2024'
     },
-    'koko': {
+    koko: {
         id: '4',
         username: 'koko',
         name: 'Koko',
         password: 'koko2024'
     },
-    'tofu': {
+    tofu: {
         id: '5',
         username: 'tofu',
         name: 'Tofu',
         password: 'tofu2024'
     },
-    'mathi': {
+    mathi: {
         id: '6',
         username: 'mathi',
         name: 'Mathi',
         password: 'mathi2024'
     },
-    'andi': {
+    andi: {
         id: '7',
-        username: 'tofu',
+        username: 'andi',
         name: 'Andi',
         password: 'andi2024'
     }
-
 };
 
 interface StoredAuthState {
@@ -57,7 +62,6 @@ interface StoredAuthState {
 
 export const login = async (username: string, password: string): Promise<User> => {
     const user = VALID_USERS[username.toLowerCase()];
-
     if (user && user.password === password) {
         const { password: _, ...userWithoutPassword } = user;
         const authState: StoredAuthState = {

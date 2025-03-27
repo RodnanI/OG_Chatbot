@@ -1,0 +1,63 @@
+{
+  "conversations": [
+    {
+      "id": "shared_1739574487741",
+      "title": "Test Chat",
+      "messages": [],
+      "timestamp": "2025-02-14T23:08:07.741Z",
+      "sharedFrom": "2",
+      "folderId": null
+    },
+    {
+      "id": "1739575261493",
+      "title": "New Chat",
+      "timestamp": "2025-02-14T23:21:01.493Z",
+      "messages": [],
+      "folderId": null,
+      "modelId": "gemini-2.0-flash",
+      "userId": "0",
+      "folderOperations": []
+    },
+    {
+      "id": "1739575261638",
+      "title": "New Chat",
+      "timestamp": "2025-02-14T23:21:01.638Z",
+      "messages": [],
+      "folderId": null,
+      "modelId": "gemini-2.0-flash",
+      "userId": "0",
+      "folderOperations": []
+    },
+    {
+      "id": "1739575261796",
+      "title": "New Chat",
+      "timestamp": "2025-02-14T23:21:01.796Z",
+      "messages": [],
+      "folderId": null,
+      "modelId": "gemini-2.0-flash",
+      "userId": "0",
+      "folderOperations": []
+    },
+    {
+      "id": "1739575261946",
+      "title": "New Chat",
+      "timestamp": "2025-02-14T23:21:01.946Z",
+      "messages": [],
+      "folderId": null,
+      "modelId": "gemini-2.0-flash",
+      "userId": "0",
+      "folderOperations": []
+    },
+    {
+      "id": "1739575262092",
+      "title": "New Chat",
+      "timestamp": "2025-02-14T23:21:02.092Z",
+      "messages": [],
+      "folderId": null,
+      "modelId": "gemini-2.0-flash",
+      "userId": "0",
+      "folderOperations": []
+    }
+  ],
+  "folders": []
+}

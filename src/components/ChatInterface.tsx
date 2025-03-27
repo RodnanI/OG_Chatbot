@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, Clipboard, Check, ChartBar, ChevronDown } from 'lucide-react';
+import { Send, Bot, User, Clipboard, Check, ChartBar, ChevronDown, Loader } from 'lucide-react';
 import Link from 'next/link';
 import FileUpload from './FileUpload';
 import FilePreviewPending from './FilePreviewPending';
@@ -19,6 +19,7 @@ import { useStatistics } from '@/hooks/useStatistics';
 import { updateStatistics } from '@/lib/statistics';
 import { analyzeImages, isImageFile } from '@/lib/imageProcessing';
 import { calculateTokenCount } from '@/lib/statistics';
+import ShareChatModal from '@/components/ShareChatModal';
 
 interface FileInfo {
     name: string;
@@ -97,6 +98,7 @@ export default function ChatInterface() {
     const [showContentModal, setShowContentModal] = useState<number | null>(null);
     const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
     const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+    const [isAnalyzingImages, setIsAnalyzingImages] = useState(false);
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const messageContainerRef = useRef<HTMLDivElement>(null);
@@ -201,13 +203,20 @@ export default function ChatInterface() {
             });
 
             if (imageFiles.length > 0) {
-                const imageAnalyses = await analyzeImages(imageFiles);
-                imageAnalyses.forEach(result => {
-                    processedFiles.push({
-                        file: imageFiles.find(f => f.name === result.name)!,
-                        content: result.analysis
+                setIsAnalyzingImages(true);
+                // Process images in batches
+                const batchSize = 1;
+                for (let i = 0; i < imageFiles.length; i += batchSize) {
+                    const batch = imageFiles.slice(i, i + batchSize);
+                    const imageAnalyses = await analyzeImages(batch);
+                    imageAnalyses.forEach(result => {
+                        processedFiles.push({
+                            file: imageFiles.find(f => f.name === result.name)!,
+                            content: result.analysis
+                        });
                     });
-                });
+                }
+                setIsAnalyzingImages(false);
             }
 
             for (const file of otherFiles) {
@@ -234,16 +243,21 @@ export default function ChatInterface() {
             setPendingFiles(prev => [...prev, ...processedFiles]);
         } catch (error) {
             console.error('Error processing files:', error);
+            setIsAnalyzingImages(false);
         }
     };
 
     const handleStatisticsUpdate = async (message: Message, role: 'user' | 'assistant') => {
         if (!user || !statistics) return;
 
-        const allMessages = messages.map(msg => ({
-            ...msg,
-            timestamp: msg.timestamp || new Date()
-        }));
+        const allMessages = conversations.reduce((acc, conv) => {
+            return acc.concat(
+                conv.messages.map(msg => ({
+                    ...msg,
+                    timestamp: msg.timestamp || new Date()
+                }))
+            );
+        }, [] as any[]);
 
         const allConversations = conversations.map(conv => ({
             ...conv,
@@ -254,10 +268,13 @@ export default function ChatInterface() {
 
         const allFiles = allMessages.reduce((files: any[], msg) => {
             if (msg.fileInfos) {
-                return [...files, ...msg.fileInfos.map(file => ({
-                    ...file,
-                    timestamp: msg.timestamp
-                }))];
+                return [
+                    ...files,
+                    ...msg.fileInfos.map(file => ({
+                        ...file,
+                        timestamp: msg.timestamp
+                    }))
+                ];
             }
             return files;
         }, []);
@@ -303,12 +320,14 @@ export default function ChatInterface() {
             timestamp: new Date(),
             processingTime: 0,
             tokenCount: calculateTokenCount(input),
-            fileInfos: pendingFiles.length > 0 ? pendingFiles.map(pf => ({
-                name: pf.file.name,
-                type: pf.file.type,
-                size: pf.file.size,
-                content: pf.content
-            })) : undefined,
+            fileInfos: pendingFiles.length > 0
+                ? pendingFiles.map(pf => ({
+                    name: pf.file.name,
+                    type: pf.file.type,
+                    size: pf.file.size,
+                    content: pf.content
+                }))
+                : undefined,
             contentAnalysis: {
                 hasCode: input.includes('```'),
                 hasMath: input.includes('$$'),
@@ -323,7 +342,6 @@ export default function ChatInterface() {
             }
         };
 
-        // Detect potential PII in the message
         const piiPatterns = {
             email: /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g,
             phone: /(\+\d{1,3}[-.]?)?\(?\d{3}\)?[-.]?\d{3}[-.]?\d{4}/g,
@@ -339,7 +357,6 @@ export default function ChatInterface() {
             userMessage.piiDetected = piiDetections;
         }
 
-        // Content warnings for potentially sensitive content
         const contentWarningPatterns = {
             profanity: /\b(damn|hell|ass|crap)\b/gi,
             sensitive: /\b(death|kill|harm|suicide|violence)\b/gi,
@@ -375,16 +392,14 @@ export default function ChatInterface() {
     const handleChatResponse = async (messageHistory: Message[]) => {
         setIsLoadingMessage(true);
         const startTime = Date.now();
-        let errorOccurred = false;
         let streamingStartTime: number;
-
         try {
             const formattedHistory = messageHistory.map(msg => ({
                 ...msg,
                 content: msg.fileInfos
-                    ? `${msg.content}\n\nFiles:\n${msg.fileInfos.map(file =>
-                        `[${file.name}]:\n${file.content}`
-                    ).join('\n\n')}`
+                    ? `${msg.content}\n\nFiles:\n${msg.fileInfos
+                        .map(file => `[${file.name}]:\n${file.content}`)
+                        .join('\n\n')}`
                     : msg.content
             }));
 
@@ -392,7 +407,7 @@ export default function ChatInterface() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'text/plain'
+                    Accept: 'text/plain'
                 },
                 body: JSON.stringify({
                     message: formattedHistory[formattedHistory.length - 1].content,
@@ -438,6 +453,8 @@ export default function ChatInterface() {
             let accumulatedContent = '';
             let lastChunkTime = Date.now();
             let totalTokens = 0;
+            let streamingDuration = 0;
+            const idleThreshold = 1000;
 
             while (true) {
                 const { value, done } = await reader.read();
@@ -448,7 +465,11 @@ export default function ChatInterface() {
                 totalTokens += calculateTokenCount(chunk);
 
                 const currentTime = Date.now();
-                const chunkProcessingTime = currentTime - lastChunkTime;
+                let delta = currentTime - lastChunkTime;
+                if (delta > idleThreshold) {
+                    delta = idleThreshold;
+                }
+                streamingDuration += delta;
                 lastChunkTime = currentTime;
 
                 setMessages(prev => {
@@ -468,9 +489,9 @@ export default function ChatInterface() {
                             },
                             performanceMetrics: {
                                 totalTime: currentTime - startTime,
-                                streamingTime: currentTime - streamingStartTime,
-                                tokensPerSecond: totalTokens / ((currentTime - streamingStartTime) / 1000),
-                                chunkLatency: chunkProcessingTime
+                                streamingTime: streamingDuration,
+                                tokensPerSecond: totalTokens / (streamingDuration / 1000),
+                                chunkLatency: delta
                             }
                         };
 
@@ -482,7 +503,6 @@ export default function ChatInterface() {
                 });
             }
 
-            // Final update with complete metrics
             setMessages(prev => {
                 const finalMessage = prev[prev.length - 1];
                 if (finalMessage.role === 'assistant') {
@@ -492,8 +512,8 @@ export default function ChatInterface() {
                         performanceMetrics: {
                             ...finalMessage.performanceMetrics,
                             totalTime: endTime - startTime,
-                            streamingTime: endTime - streamingStartTime,
-                            tokensPerSecond: totalTokens / ((endTime - streamingStartTime) / 1000)
+                            streamingTime: streamingDuration,
+                            tokensPerSecond: totalTokens / (streamingDuration / 1000)
                         }
                     };
 
@@ -504,11 +524,8 @@ export default function ChatInterface() {
                 }
                 return prev;
             });
-
         } catch (error) {
             console.error('Error:', error);
-            errorOccurred = true;
-
             const errorMessage: Message = {
                 id: generateMessageId(),
                 role: 'assistant',
@@ -556,11 +573,13 @@ export default function ChatInterface() {
         setShouldAutoScroll(true);
 
         if (folderId) {
-            setFolders(prev => prev.map(folder =>
-                folder.id === folderId
-                    ? { ...folder, conversations: [...folder.conversations, newConversation.id] }
-                    : folder
-            ));
+            setFolders(prev =>
+                prev.map(folder =>
+                    folder.id === folderId
+                        ? { ...folder, conversations: [...folder.conversations, newConversation.id] }
+                        : folder
+                )
+            );
         }
 
         return newConversation.id;
@@ -570,87 +589,86 @@ export default function ChatInterface() {
         if (!currentConversationId || !user) return;
 
         isSaving.current = true;
-        setConversations(prev => prev.map(conv => {
-            if (conv.id === currentConversationId) {
-                const firstMessage = messages.find(m => m.role === 'user');
-                return {
-                    ...conv,
-                    title: firstMessage ? firstMessage.content.slice(0, 30) + '...' : 'New Chat',
-                    messages,
-                    timestamp: new Date(),
-                    modelId: selectedModel.id,
-                    userId: user.id
-                };
-            }
-            return conv;
-        }));
+        setConversations(prev =>
+            prev.map(conv => {
+                if (conv.id === currentConversationId) {
+                    const firstMessage = messages.find(m => m.role === 'user');
+                    return {
+                        ...conv,
+                        title: firstMessage ? firstMessage.content.slice(0, 30) + '...' : 'New Chat',
+                        messages,
+                        timestamp: new Date(),
+                        modelId: selectedModel.id,
+                        userId: user.id
+                    };
+                }
+                return conv;
+            })
+        );
         isSaving.current = false;
     };
 
     const handleModelChange = (newModel: ChatModel) => {
         setSelectedModel(newModel);
         if (currentConversationId) {
-            setConversations(prev => prev.map(conv =>
-                conv.id === currentConversationId
-                    ? { ...conv, modelId: newModel.id }
-                    : conv
-            ));
+            setConversations(prev =>
+                prev.map(conv =>
+                    conv.id === currentConversationId ? { ...conv, modelId: newModel.id } : conv
+                )
+            );
         }
     };
 
     const onMoveConversation = (conversationId: string, folderId: string | null) => {
-        setFolders(prev => prev.map(folder => ({
-            ...folder,
-            conversations: folder.conversations.filter(id => id !== conversationId)
-        })));
+        setFolders(prev =>
+            prev.map(folder => ({
+                ...folder,
+                conversations: folder.conversations.filter(id => id !== conversationId)
+            }))
+        );
 
         if (folderId) {
-            setFolders(prev => prev.map(folder =>
-                folder.id === folderId
-                    ? { ...folder, conversations: [...folder.conversations, conversationId] }
-                    : folder
-            ));
+            setFolders(prev =>
+                prev.map(folder =>
+                    folder.id === folderId
+                        ? { ...folder, conversations: [...folder.conversations, conversationId] }
+                        : folder
+                )
+            );
         }
 
-        setConversations(prev => prev.map(conv =>
-            conv.id === conversationId ? { ...conv, folderId } : conv
-        ));
+        setConversations(prev =>
+            prev.map(conv => (conv.id === conversationId ? { ...conv, folderId } : conv))
+        );
     };
 
     const onDeleteConversation = async (id: string) => {
-        setConversations(prev => prev.map(conv =>
-            conv.id === id
-                ? { ...conv, deleted: true, deletedAt: new Date() }
-                : conv
-        ));
+        const newConversations = conversations.filter(conv => conv.id !== id);
+        setConversations(newConversations);
+
+        const newFolders = folders.map(folder => ({
+            ...folder,
+            conversations: folder.conversations.filter(convId => convId !== id)
+        }));
+        setFolders(newFolders);
 
         if (currentConversationId === id) {
             setCurrentConversationId(null);
             setMessages([]);
         }
 
-        if (statistics && user) {
-            const deletedConv = conversations.find(conv => conv.id === id);
-            if (deletedConv) {
-                const updatedStats = await updateStatistics(
-                    '',
-                    'user',
-                    statistics,
-                    undefined,
-                    deletedConv.messages,
-                    [{ ...deletedConv, deleted: true, deletedAt: new Date() }],
-                    [],
-                    []
-                );
-                await setStatistics(updatedStats);
-            }
+        if (user) {
+            setData({
+                conversations: newConversations,
+                folders: newFolders
+            });
         }
     };
 
     const onRenameConversation = (id: string, newTitle: string) => {
-        setConversations(prev => prev.map(conv =>
-            conv.id === id ? { ...conv, title: newTitle } : conv
-        ));
+        setConversations(prev =>
+            prev.map(conv => (conv.id === id ? { ...conv, title: newTitle } : conv))
+        );
     };
 
     const handleImportChats = (importedChats: any[], targetFolderId?: string | null) => {
@@ -671,15 +689,17 @@ export default function ChatInterface() {
         setConversations(prev => [...prev, ...processedChats]);
 
         if (targetFolderId) {
-            setFolders(prev => prev.map(folder => {
-                if (folder.id === targetFolderId) {
-                    return {
-                        ...folder,
-                        conversations: [...folder.conversations, ...processedChats.map(chat => chat.id)]
-                    };
-                }
-                return folder;
-            }));
+            setFolders(prev =>
+                prev.map(folder => {
+                    if (folder.id === targetFolderId) {
+                        return {
+                            ...folder,
+                            conversations: [...folder.conversations, ...processedChats.map(chat => chat.id)]
+                        };
+                    }
+                    return folder;
+                })
+            );
         }
 
         if (!currentConversationId && processedChats.length > 0) {
@@ -733,17 +753,21 @@ export default function ChatInterface() {
                     const folder = folders.find(f => f.id === folderId);
                     if (folder) {
                         folder.conversations.forEach(convId => {
-                            setConversations(prev => prev.map(conv =>
-                                conv.id === convId ? { ...conv, folderId: null } : conv
-                            ));
+                            setConversations(prev =>
+                                prev.map(conv =>
+                                    conv.id === convId ? { ...conv, folderId: null } : conv
+                                )
+                            );
                         });
                         setFolders(prev => prev.filter(f => f.id !== folderId));
                     }
                 }}
                 onRenameFolder={(folderId, newName) => {
-                    setFolders(prev => prev.map(folder =>
-                        folder.id === folderId ? { ...folder, name: newName } : folder
-                    ));
+                    setFolders(prev =>
+                        prev.map(folder =>
+                            folder.id === folderId ? { ...folder, name: newName } : folder
+                        )
+                    );
                 }}
                 onDeleteConversation={onDeleteConversation}
                 onRenameConversation={onRenameConversation}
@@ -770,15 +794,19 @@ export default function ChatInterface() {
                                         message.role === 'user' ? 'justify-end' : 'justify-start'
                                     } mb-6`}
                                 >
-                                    <div className={`relative p-4 rounded-2xl transition-all duration-200 ${
-                                        message.role === 'user'
-                                            ? 'bg-primary text-white rounded-br-sm'
-                                            : 'bg-secondary rounded-bl-sm'
-                                    } shadow-lg max-w-3xl`}>
+                                    <div
+                                        className={`relative p-4 rounded-2xl transition-all duration-200 ${
+                                            message.role === 'user'
+                                                ? 'bg-primary text-white rounded-br-sm'
+                                                : 'bg-secondary rounded-bl-sm'
+                                        } shadow-lg max-w-3xl`}
+                                    >
                                         <div className="flex items-start gap-3">
-                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                                                message.role === 'user' ? 'bg-primary-hover' : 'bg-secondary'
-                                            }`}>
+                                            <div
+                                                className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                                                    message.role === 'user' ? 'bg-primary-hover' : 'bg-secondary'
+                                                }`}
+                                            >
                                                 {message.role === 'user' ? (
                                                     <User className="w-5 h-5 text-white" />
                                                 ) : (
@@ -787,14 +815,9 @@ export default function ChatInterface() {
                                             </div>
                                             <div className="flex-1 min-w-0">
                                                 {message.fileInfos && message.fileInfos.length > 0 && (
-                                                    <FilePreviewInChat
-                                                        files={message.fileInfos}
-                                                    />
+                                                    <FilePreviewInChat files={message.fileInfos} />
                                                 )}
-                                                <MessageContent
-                                                    content={message.content}
-                                                    model={selectedModel.id}
-                                                />
+                                                <MessageContent content={message.content} model={selectedModel.id} />
                                             </div>
                                         </div>
                                     </div>
@@ -805,7 +828,6 @@ export default function ChatInterface() {
                     </div>
                 </div>
 
-                {/* Scroll to bottom button */}
                 {showScrollButton && (
                     <button
                         onClick={scrollToBottom}
@@ -818,6 +840,17 @@ export default function ChatInterface() {
 
                 <div className="p-4 border-t border-theme relative">
                     <div className="max-w-5xl mx-auto">
+                        {/* Image Analysis Loading Indicator */}
+                        {isAnalyzingImages && (
+                            <div className="absolute bottom-full left-0 right-0 flex justify-center p-4">
+                                <div className="bg-secondary/70 backdrop-blur-sm rounded-lg p-3 border border-theme flex items-center gap-3 shadow-md">
+                                    <Loader className="w-6 h-6 text-primary animate-spin" />
+                                    <span className="text-sm text-theme">Analyzing images...</span>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Pending Files Preview */}
                         {pendingFiles.length > 0 && (
                             <div className="absolute bottom-full left-0 right-0 p-4 pointer-events-none">
                                 <div className="max-w-5xl mx-auto">
@@ -834,6 +867,7 @@ export default function ChatInterface() {
                             </div>
                         )}
 
+                        {/* File Content Modal */}
                         {showContentModal !== null && pendingFiles[showContentModal] && (
                             <FileContentModal
                                 fileName={pendingFiles[showContentModal].file.name}
@@ -845,35 +879,36 @@ export default function ChatInterface() {
                         <form onSubmit={handleSubmit} className="flex gap-3">
                             <FileUpload
                                 onFilesSelect={handleFileSelect}
-                                disabled={isLoadingMessage}
+                                disabled={isLoadingMessage || isAnalyzingImages}
                             />
                             <div className="flex-1 relative">
                                 <div className="relative flex items-center">
-                                    <textarea
-                                        ref={textareaRef}
-                                        value={input}
-                                        onChange={(e) => setInput(e.target.value)}
-                                        className="w-full px-4 py-3 bg-secondary backdrop-blur-sm text-theme rounded-lg
-                                            border border-theme hover:bg-secondary-hover transition-all
-                                            focus:outline-none focus:ring-2 focus:ring-primary
-                                            placeholder-theme/50 pr-16 resize-none overflow-x-hidden"
-                                        placeholder="Ask me anything..."
-                                        onKeyDown={(e) => {
-                                            if (e.key === 'Enter' && !e.shiftKey) {
-                                                e.preventDefault();
-                                                handleSubmit(e);
-                                            }
-                                        }}
-                                        rows={1}
-                                    />
+                  <textarea
+                      ref={textareaRef}
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}
+                      className="w-full px-4 py-3 bg-secondary backdrop-blur-sm text-theme rounded-lg border border-theme hover:bg-secondary-hover transition-all focus:outline-none focus:ring-2 focus:ring-primary placeholder-theme/50 pr-16 resize-none overflow-x-hidden"
+                      placeholder="Ask me anything..."
+                      onKeyDown={(e) => {
+                          if (e.key === 'Enter' && !e.shiftKey) {
+                              e.preventDefault();
+                              handleSubmit(e);
+                          }
+                      }}
+                      rows={1}
+                  />
                                     <button
                                         type="submit"
                                         className={`absolute right-2 p-2 rounded-lg transition-all duration-200 ${
-                                            isLoadingMessage || (!input.trim() && pendingFiles.length === 0)
+                                            isLoadingMessage || isAnalyzingImages || (!input.trim() && pendingFiles.length === 0)
                                                 ? 'bg-secondary/30 text-theme/30 cursor-not-allowed'
                                                 : 'bg-primary hover:bg-primary-hover text-white'
                                         }`}
-                                        disabled={isLoadingMessage || (!input.trim() && pendingFiles.length === 0)}
+                                        disabled={
+                                            isLoadingMessage ||
+                                            isAnalyzingImages ||
+                                            (!input.trim() && pendingFiles.length === 0)
+                                        }
                                     >
                                         <Send className="w-4 h-4" />
                                     </button>
@@ -884,14 +919,12 @@ export default function ChatInterface() {
                 </div>
             </div>
 
-            {/* Chat Sharing Modal */}
-            {isShareModalOpen && (
-                <ChatSharingModal
+            {isShareModalOpen && user && (
+                <ShareChatModal
                     isOpen={isShareModalOpen}
                     onClose={() => setIsShareModalOpen(false)}
                     conversations={conversations}
-                    folders={folders}
-                    onImport={handleImportChats}
+                    currentUserId={user.id}
                 />
             )}
         </div>

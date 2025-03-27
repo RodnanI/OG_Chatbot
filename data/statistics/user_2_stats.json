@@ -1,0 +1,478 @@
+{
+  "daily": {
+    "tokens": 36476,
+    "messages": 76,
+    "conversations": 0,
+    "avgResponseTime": 0,
+    "fileStats": {
+      "totalUploads": 0,
+      "totalSize": 0,
+      "byType": {},
+      "averageSize": 0,
+      "largestFile": 0,
+      "uploadTimes": []
+    },
+    "performance": {
+      "averageLatency": 0,
+      "tokenProcessingRate": 0,
+      "streamingSpeed": 0,
+      "errorRecoveryRate": 1,
+      "successfulRequests": 0,
+      "failedRequests": 0,
+      "timeoutRate": 0
+    },
+    "modelUsage": [
+      {
+        "modelId": "claude-3-5-sonnet-20241022",
+        "name": "Claude 3.5 Sonnet",
+        "provider": "anthropic",
+        "usage": 1,
+        "totalTokens": 0,
+        "averageResponseTime": 0,
+        "errorRate": 0,
+        "averageMessageLength": 0,
+        "costEstimate": 0
+      },
+      {
+        "modelId": "gemini-2.0-flash",
+        "name": "Gemini 2.0 Flash",
+        "provider": "google",
+        "usage": 1,
+        "totalTokens": 0,
+        "averageResponseTime": 0,
+        "errorRate": 0,
+        "averageMessageLength": 0,
+        "costEstimate": 0
+      },
+      {
+        "modelId": "gpt-4-turbo-preview",
+        "name": "GPT-4 Turbo",
+        "provider": "openai",
+        "usage": 1,
+        "totalTokens": 0,
+        "averageResponseTime": 0,
+        "errorRate": 0,
+        "averageMessageLength": 0,
+        "costEstimate": 0
+      }
+    ],
+    "content": {
+      "averageWordCount": 0,
+      "sentimentScores": [],
+      "topicDistribution": {},
+      "questionFrequency": 0,
+      "codeBlockCount": 0,
+      "imageAnalysisCount": 0,
+      "mathExpressionCount": 0
+    },
+    "interactions": {
+      "averageResponseTime": 0,
+      "messageEditCount": 0,
+      "deletedMessages": 0,
+      "reactionCounts": {},
+      "userCorrectionRate": 0,
+      "clarificationRequests": 0
+    },
+    "activityHeatMap": {
+      "Wed-18": 4,
+      "Wed-19": 12,
+      "Wed-20": 15,
+      "Wed-22": 21,
+      "Wed-23": 24,
+      "Thu-0": 39,
+      "Thu-1": 6,
+      "Fri-12": 17,
+      "Sat-0": 6
+    },
+    "userBehavior": {
+      "sessionDuration": [],
+      "averageSessionLength": 0,
+      "sessionCount": 0,
+      "activeTimeOfDay": {},
+      "activeDaysOfWeek": {},
+      "returnRate": 0,
+      "timeZone": "Europe/Berlin"
+    }
+  },
+  "weekly": {
+    "tokens": 36476,
+    "messages": 76,
+    "conversations": 0,
+    "avgResponseTime": 0,
+    "fileStats": {
+      "totalUploads": 0,
+      "totalSize": 0,
+      "byType": {},
+      "averageSize": 0,
+      "largestFile": 0,
+      "uploadTimes": []
+    },
+    "performance": {
+      "averageLatency": 0,
+      "tokenProcessingRate": 0,
+      "streamingSpeed": 0,
+      "errorRecoveryRate": 1,
+      "successfulRequests": 0,
+      "failedRequests": 0,
+      "timeoutRate": 0
+    },
+    "modelUsage": [
+      {
+        "modelId": "claude-3-5-sonnet-20241022",
+        "name": "Claude 3.5 Sonnet",
+        "provider": "anthropic",
+        "usage": 1,
+        "totalTokens": 0,
+        "averageResponseTime": 0,
+        "errorRate": 0,
+        "averageMessageLength": 0,
+        "costEstimate": 0
+      },
+      {
+        "modelId": "gemini-2.0-flash",
+        "name": "Gemini 2.0 Flash",
+        "provider": "google",
+        "usage": 1,
+        "totalTokens": 0,
+        "averageResponseTime": 0,
+        "errorRate": 0,
+        "averageMessageLength": 0,
+        "costEstimate": 0
+      },
+      {
+        "modelId": "gpt-4-turbo-preview",
+        "name": "GPT-4 Turbo",
+        "provider": "openai",
+        "usage": 1,
+        "totalTokens": 0,
+        "averageResponseTime": 0,
+        "errorRate": 0,
+        "averageMessageLength": 0,
+        "costEstimate": 0
+      }
+    ],
+    "content": {
+      "averageWordCount": 0,
+      "sentimentScores": [],
+      "topicDistribution": {},
+      "questionFrequency": 0,
+      "codeBlockCount": 0,
+      "imageAnalysisCount": 0,
+      "mathExpressionCount": 0
+    },
+    "interactions": {
+      "averageResponseTime": 0,
+      "messageEditCount": 0,
+      "deletedMessages": 0,
+      "reactionCounts": {},
+      "userCorrectionRate": 0,
+      "clarificationRequests": 0
+    },
+    "activityHeatMap": {
+      "Wed-18": 4,
+      "Wed-19": 12,
+      "Wed-20": 15,
+      "Wed-22": 21,
+      "Wed-23": 24,
+      "Thu-0": 39,
+      "Thu-1": 6,
+      "Fri-12": 17,
+      "Sat-0": 6
+    },
+    "userBehavior": {
+      "sessionDuration": [],
+      "averageSessionLength": 0,
+      "sessionCount": 0,
+      "activeTimeOfDay": {},
+      "activeDaysOfWeek": {},
+      "returnRate": 0,
+      "timeZone": "Europe/Berlin"
+    }
+  },
+  "monthly": {
+    "tokens": 36476,
+    "messages": 76,
+    "conversations": 0,
+    "avgResponseTime": 0,
+    "fileStats": {
+      "totalUploads": 0,
+      "totalSize": 0,
+      "byType": {},
+      "averageSize": 0,
+      "largestFile": 0,
+      "uploadTimes": []
+    },
+    "performance": {
+      "averageLatency": 0,
+      "tokenProcessingRate": 0,
+      "streamingSpeed": 0,
+      "errorRecoveryRate": 1,
+      "successfulRequests": 0,
+      "failedRequests": 0,
+      "timeoutRate": 0
+    },
+    "modelUsage": [
+      {
+        "modelId": "claude-3-5-sonnet-20241022",
+        "name": "Claude 3.5 Sonnet",
+        "provider": "anthropic",
+        "usage": 1,
+        "totalTokens": 0,
+        "averageResponseTime": 0,
+        "errorRate": 0,
+        "averageMessageLength": 0,
+        "costEstimate": 0
+      },
+      {
+        "modelId": "gemini-2.0-flash",
+        "name": "Gemini 2.0 Flash",
+        "provider": "google",
+        "usage": 1,
+        "totalTokens": 0,
+        "averageResponseTime": 0,
+        "errorRate": 0,
+        "averageMessageLength": 0,
+        "costEstimate": 0
+      },
+      {
+        "modelId": "gpt-4-turbo-preview",
+        "name": "GPT-4 Turbo",
+        "provider": "openai",
+        "usage": 1,
+        "totalTokens": 0,
+        "averageResponseTime": 0,
+        "errorRate": 0,
+        "averageMessageLength": 0,
+        "costEstimate": 0
+      }
+    ],
+    "content": {
+      "averageWordCount": 0,
+      "sentimentScores": [],
+      "topicDistribution": {},
+      "questionFrequency": 0,
+      "codeBlockCount": 0,
+      "imageAnalysisCount": 0,
+      "mathExpressionCount": 0
+    },
+    "interactions": {
+      "averageResponseTime": 0,
+      "messageEditCount": 0,
+      "deletedMessages": 0,
+      "reactionCounts": {},
+      "userCorrectionRate": 0,
+      "clarificationRequests": 0
+    },
+    "activityHeatMap": {
+      "Wed-18": 4,
+      "Wed-19": 12,
+      "Wed-20": 15,
+      "Wed-22": 21,
+      "Wed-23": 24,
+      "Thu-0": 39,
+      "Thu-1": 6,
+      "Fri-12": 17,
+      "Sat-0": 6
+    },
+    "userBehavior": {
+      "sessionDuration": [],
+      "averageSessionLength": 0,
+      "sessionCount": 0,
+      "activeTimeOfDay": {},
+      "activeDaysOfWeek": {},
+      "returnRate": 0,
+      "timeZone": "Europe/Berlin"
+    }
+  },
+  "yearly": {
+    "tokens": 36476,
+    "messages": 76,
+    "conversations": 0,
+    "avgResponseTime": 0,
+    "fileStats": {
+      "totalUploads": 0,
+      "totalSize": 0,
+      "byType": {},
+      "averageSize": 0,
+      "largestFile": 0,
+      "uploadTimes": []
+    },
+    "performance": {
+      "averageLatency": 0,
+      "tokenProcessingRate": 0,
+      "streamingSpeed": 0,
+      "errorRecoveryRate": 1,
+      "successfulRequests": 0,
+      "failedRequests": 0,
+      "timeoutRate": 0
+    },
+    "modelUsage": [
+      {
+        "modelId": "claude-3-5-sonnet-20241022",
+        "name": "Claude 3.5 Sonnet",
+        "provider": "anthropic",
+        "usage": 1,
+        "totalTokens": 0,
+        "averageResponseTime": 0,
+        "errorRate": 0,
+        "averageMessageLength": 0,
+        "costEstimate": 0
+      },
+      {
+        "modelId": "gemini-2.0-flash",
+        "name": "Gemini 2.0 Flash",
+        "provider": "google",
+        "usage": 1,
+        "totalTokens": 0,
+        "averageResponseTime": 0,
+        "errorRate": 0,
+        "averageMessageLength": 0,
+        "costEstimate": 0
+      },
+      {
+        "modelId": "gpt-4-turbo-preview",
+        "name": "GPT-4 Turbo",
+        "provider": "openai",
+        "usage": 1,
+        "totalTokens": 0,
+        "averageResponseTime": 0,
+        "errorRate": 0,
+        "averageMessageLength": 0,
+        "costEstimate": 0
+      }
+    ],
+    "content": {
+      "averageWordCount": 0,
+      "sentimentScores": [],
+      "topicDistribution": {},
+      "questionFrequency": 0,
+      "codeBlockCount": 0,
+      "imageAnalysisCount": 0,
+      "mathExpressionCount": 0
+    },
+    "interactions": {
+      "averageResponseTime": 0,
+      "messageEditCount": 0,
+      "deletedMessages": 0,
+      "reactionCounts": {},
+      "userCorrectionRate": 0,
+      "clarificationRequests": 0
+    },
+    "activityHeatMap": {
+      "Wed-18": 4,
+      "Wed-19": 12,
+      "Wed-20": 15,
+      "Wed-22": 21,
+      "Wed-23": 24,
+      "Thu-0": 39,
+      "Thu-1": 6,
+      "Fri-12": 17,
+      "Sat-0": 6
+    },
+    "userBehavior": {
+      "sessionDuration": [],
+      "averageSessionLength": 0,
+      "sessionCount": 0,
+      "activeTimeOfDay": {},
+      "activeDaysOfWeek": {},
+      "returnRate": 0,
+      "timeZone": "Europe/Berlin"
+    }
+  },
+  "allTime": {
+    "tokens": 36476,
+    "messages": 76,
+    "conversations": 0,
+    "avgResponseTime": 0,
+    "fileStats": {
+      "totalUploads": 0,
+      "totalSize": 0,
+      "byType": {},
+      "averageSize": 0,
+      "largestFile": 0,
+      "uploadTimes": []
+    },
+    "performance": {
+      "averageLatency": 0,
+      "tokenProcessingRate": 0,
+      "streamingSpeed": 0,
+      "errorRecoveryRate": 1,
+      "successfulRequests": 0,
+      "failedRequests": 0,
+      "timeoutRate": 0
+    },
+    "modelUsage": [
+      {
+        "modelId": "claude-3-5-sonnet-20241022",
+        "name": "Claude 3.5 Sonnet",
+        "provider": "anthropic",
+        "usage": 1,
+        "totalTokens": 0,
+        "averageResponseTime": 0,
+        "errorRate": 0,
+        "averageMessageLength": 0,
+        "costEstimate": 0
+      },
+      {
+        "modelId": "gemini-2.0-flash",
+        "name": "Gemini 2.0 Flash",
+        "provider": "google",
+        "usage": 1,
+        "totalTokens": 0,
+        "averageResponseTime": 0,
+        "errorRate": 0,
+        "averageMessageLength": 0,
+        "costEstimate": 0
+      },
+      {
+        "modelId": "gpt-4-turbo-preview",
+        "name": "GPT-4 Turbo",
+        "provider": "openai",
+        "usage": 1,
+        "totalTokens": 0,
+        "averageResponseTime": 0,
+        "errorRate": 0,
+        "averageMessageLength": 0,
+        "costEstimate": 0
+      }
+    ],
+    "content": {
+      "averageWordCount": 0,
+      "sentimentScores": [],
+      "topicDistribution": {},
+      "questionFrequency": 0,
+      "codeBlockCount": 0,
+      "imageAnalysisCount": 0,
+      "mathExpressionCount": 0
+    },
+    "interactions": {
+      "averageResponseTime": 0,
+      "messageEditCount": 0,
+      "deletedMessages": 0,
+      "reactionCounts": {},
+      "userCorrectionRate": 0,
+      "clarificationRequests": 0
+    },
+    "activityHeatMap": {
+      "Wed-18": 4,
+      "Wed-19": 12,
+      "Wed-20": 15,
+      "Wed-22": 21,
+      "Wed-23": 24,
+      "Thu-0": 39,
+      "Thu-1": 6,
+      "Fri-12": 17,
+      "Sat-0": 6
+    },
+    "userBehavior": {
+      "sessionDuration": [],
+      "averageSessionLength": 0,
+      "sessionCount": 0,
+      "activeTimeOfDay": {},
+      "activeDaysOfWeek": {},
+      "returnRate": 0,
+      "timeZone": "Europe/Berlin"
+    }
+  },
+  "timeSeriesData": []
+}

@@ -20,11 +20,12 @@ const ColorInput = ({ label, value, onChange }: ColorInputProps) => (
                 onChange={(e) => onChange(e.target.value)}
                 className="w-8 h-8 rounded cursor-pointer"
             />
+            {/* Use a transparent background so that text contrasts with the active theme */}
             <input
                 type="text"
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
-                className="flex-1 bg-secondary/50 text-theme rounded px-2 py-1 text-sm border border-theme"
+                className="flex-1 bg-transparent text-theme rounded px-2 py-1 text-sm border border-theme"
             />
         </div>
     </div>
@@ -66,7 +67,7 @@ const ThemeEditor = ({ initialTheme, onSave, onCancel }: ThemeEditorProps) => {
             id: initialTheme?.id || `custom-${Date.now()}`,
             name: name.trim(),
             variables,
-            isCustom: true
+            isCustom: true,
         };
 
         onSave(theme);
@@ -78,11 +79,12 @@ const ThemeEditor = ({ initialTheme, onSave, onCancel }: ThemeEditorProps) => {
                 {/* Theme Name */}
                 <div>
                     <label className="block text-sm text-theme/70 mb-1">Theme Name</label>
+                    {/* Use bg-transparent instead of a white background */}
                     <input
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="w-full bg-secondary/50 text-theme rounded px-3 py-2 border border-theme"
+                        className="w-full bg-transparent text-theme rounded px-3 py-2 border border-theme"
                         placeholder="Enter theme name"
                     />
                 </div>
@@ -92,62 +94,86 @@ const ThemeEditor = ({ initialTheme, onSave, onCancel }: ThemeEditorProps) => {
                     <ColorInput
                         label="Background Start"
                         value={variables['--background-start']}
-                        onChange={(value) => setVariables(prev => ({ ...prev, '--background-start': value }))}
+                        onChange={(value) =>
+                            setVariables((prev) => ({ ...prev, '--background-start': value }))
+                        }
                     />
                     <ColorInput
                         label="Background End"
                         value={variables['--background-end']}
-                        onChange={(value) => setVariables(prev => ({ ...prev, '--background-end': value }))}
+                        onChange={(value) =>
+                            setVariables((prev) => ({ ...prev, '--background-end': value }))
+                        }
                     />
                     <ColorInput
                         label="Primary Color"
                         value={variables['--primary']}
-                        onChange={(value) => setVariables(prev => ({ ...prev, '--primary': value }))}
+                        onChange={(value) =>
+                            setVariables((prev) => ({ ...prev, '--primary': value }))
+                        }
                     />
                     <ColorInput
                         label="Primary Hover"
                         value={variables['--primary-hover']}
-                        onChange={(value) => setVariables(prev => ({ ...prev, '--primary-hover': value }))}
+                        onChange={(value) =>
+                            setVariables((prev) => ({ ...prev, '--primary-hover': value }))
+                        }
                     />
                     <ColorInput
                         label="Secondary Color"
                         value={variables['--secondary']}
-                        onChange={(value) => setVariables(prev => ({ ...prev, '--secondary': value }))}
+                        onChange={(value) =>
+                            setVariables((prev) => ({ ...prev, '--secondary': value }))
+                        }
                     />
                     <ColorInput
                         label="Secondary Hover"
                         value={variables['--secondary-hover']}
-                        onChange={(value) => setVariables(prev => ({ ...prev, '--secondary-hover': value }))}
+                        onChange={(value) =>
+                            setVariables((prev) => ({ ...prev, '--secondary-hover': value }))
+                        }
                     />
                     <ColorInput
                         label="Text Color"
                         value={variables['--text']}
-                        onChange={(value) => setVariables(prev => ({ ...prev, '--text': value }))}
+                        onChange={(value) =>
+                            setVariables((prev) => ({ ...prev, '--text': value }))
+                        }
                     />
                     <ColorInput
                         label="Accent Color"
                         value={variables['--accent']}
-                        onChange={(value) => setVariables(prev => ({ ...prev, '--accent': value }))}
+                        onChange={(value) =>
+                            setVariables((prev) => ({ ...prev, '--accent': value }))
+                        }
                     />
                     <ColorInput
                         label="Sidebar Gradient 1"
                         value={variables['--sidebar-gradient-1']}
-                        onChange={(value) => setVariables(prev => ({ ...prev, '--sidebar-gradient-1': value }))}
+                        onChange={(value) =>
+                            setVariables((prev) => ({ ...prev, '--sidebar-gradient-1': value }))
+                        }
                     />
                     <ColorInput
                         label="Sidebar Gradient 2"
                         value={variables['--sidebar-gradient-2']}
-                        onChange={(value) => setVariables(prev => ({ ...prev, '--sidebar-gradient-2': value }))}
+                        onChange={(value) =>
+                            setVariables((prev) => ({ ...prev, '--sidebar-gradient-2': value }))
+                        }
                     />
                     <ColorInput
                         label="Sidebar Gradient 3"
                         value={variables['--sidebar-gradient-3']}
-                        onChange={(value) => setVariables(prev => ({ ...prev, '--sidebar-gradient-3': value }))}
+                        onChange={(value) =>
+                            setVariables((prev) => ({ ...prev, '--sidebar-gradient-3': value }))
+                        }
                     />
                     <ColorInput
                         label="Card Background"
                         value={variables['--card-background']}
-                        onChange={(value) => setVariables(prev => ({ ...prev, '--card-background': value }))}
+                        onChange={(value) =>
+                            setVariables((prev) => ({ ...prev, '--card-background': value }))
+                        }
                     />
                 </div>
 
@@ -172,7 +198,8 @@ const ThemeEditor = ({ initialTheme, onSave, onCancel }: ThemeEditorProps) => {
 };
 
 export default function ThemeCustomizer() {
-    const { themes, currentTheme, setTheme, addCustomTheme, deleteCustomTheme, updateCustomTheme } = useTheme();
+    const { themes, currentTheme, setTheme, addCustomTheme, deleteCustomTheme, updateCustomTheme } =
+        useTheme();
     const [isEditing, setIsEditing] = useState(false);
     const [editingTheme, setEditingTheme] = useState<Theme | undefined>();
 
@@ -217,9 +244,10 @@ export default function ThemeCustomizer() {
                         <div
                             key={theme.id}
                             className={`relative p-4 rounded-xl border transition-all cursor-pointer
-                                ${currentTheme === theme.id
-                                ? 'border-primary bg-primary/10'
-                                : 'border-theme/10 hover:border-theme/30 bg-secondary/50'
+              ${
+                                currentTheme === theme.id
+                                    ? 'border-primary bg-primary/10'
+                                    : 'border-theme/10 hover:border-theme/30 bg-secondary/50'
                             }`}
                             onClick={() => setTheme(theme.id)}
                         >
@@ -227,7 +255,7 @@ export default function ThemeCustomizer() {
                             <div
                                 className="h-20 rounded-lg mb-3"
                                 style={{
-                                    background: `linear-gradient(135deg, ${theme.variables['--background-start']} 0%, ${theme.variables['--background-end']} 100%)`
+                                    background: `linear-gradient(135deg, ${theme.variables['--background-start']} 0%, ${theme.variables['--background-end']} 100%)`,
                                 }}
                             >
                                 <div className="h-full w-full p-2 flex gap-2">

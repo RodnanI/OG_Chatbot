@@ -1,0 +1,41 @@
+{
+  "files": [
+    {
+      "id": "f1edbdb7-a700-4099-b839-9daf1250ff32",
+      "name": "3qxa8rcfudee1.jpeg.webp",
+      "path": "/Users/giorgiobirnthaler/Desktop/Meins/Coding/V1.2 Testing/data/shared-files/2/f1edbdb7-a700-4099-b839-9daf1250ff32",
+      "size": 40088,
+      "type": "image/webp",
+      "uploaderId": "2",
+      "uploaderName": "Dodo",
+      "uploadDate": "2025-02-16T14:49:24.158Z",
+      "folderId": null
+    }
+  ],
+  "folders": [
+    {
+      "id": "4ffd5c5b-3512-462a-9ffe-6d53cf79e0db",
+      "name": "test",
+      "path": "/test",
+      "createdBy": "2",
+      "createdAt": "2025-02-16T14:50:54.984Z",
+      "parentId": null
+    },
+    {
+      "id": "14f56353-58b2-4b19-8833-dd8bc8c25d7d",
+      "name": "as",
+      "path": "/4ffd5c5b-3512-462a-9ffe-6d53cf79e0db/as",
+      "createdBy": "2",
+      "createdAt": "2025-02-16T14:51:30.881Z",
+      "parentId": "4ffd5c5b-3512-462a-9ffe-6d53cf79e0db"
+    },
+    {
+      "id": "318698f1-36fe-4036-80de-9757c0bd4f31",
+      "name": "asdfsd",
+      "path": "/14f56353-58b2-4b19-8833-dd8bc8c25d7d/asdfsd",
+      "createdBy": "2",
+      "createdAt": "2025-02-16T14:51:37.315Z",
+      "parentId": "14f56353-58b2-4b19-8833-dd8bc8c25d7d"
+    }
+  ]
+}

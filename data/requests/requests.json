@@ -1,0 +1,18 @@
+[
+  {
+    "id": "1739403744512",
+    "title": "hi",
+    "description": "cool",
+    "type": "bug",
+    "status": "Resolved",
+    "submittedAt": "2025-02-12T23:42:24.512Z"
+  },
+  {
+    "id": "1739404645909",
+    "title": "White text boxes",
+    "description": "The text boxes in both the custom themes section and the rename chats are white on white",
+    "type": "bug",
+    "status": "Resolved",
+    "submittedAt": "2025-02-12T23:57:25.909Z"
+  }
+]
